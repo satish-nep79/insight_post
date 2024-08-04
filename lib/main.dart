@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insight_post/common/constsnts/app_theme.dart';
+import 'package:insight_post/common/constsnts/app_values.dart';
 import 'package:insight_post/common/constsnts/size_constants.dart';
+import 'package:insight_post/common/route/app_routes.dart';
 
 void main() {
   runApp(
@@ -12,8 +14,15 @@ void main() {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
+
+  @override
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  late final routes = RouteManager().goRouter(AppValues.navKey, ref);
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +33,11 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => child ?? const SizedBox(),
       child: Consumer(
         builder: (context, ref, _) => MaterialApp.router(
+          debugShowCheckedModeBanner: false,
           builder: (context, child) => child ?? const SizedBox(),
           title: "Insight Post",
           theme: AppTheme.basicTheme(),
-          
+          routerConfig: routes,
         ),
       ),
     );

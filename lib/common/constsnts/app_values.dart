@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
 class AppValues {
-  static final GlobalKey<ScaffoldMessengerState> snackBarMessengerKey =
-      GlobalKey<ScaffoldMessengerState>();
+  static final snackBarMessengerKey = GlobalKey<ScaffoldMessengerState>();
+  static final navKey = GlobalKey<NavigatorState>();
 }
