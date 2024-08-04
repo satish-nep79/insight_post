@@ -30,9 +30,13 @@ class DioService {
             const Duration(milliseconds: AppTimeValues.dioConnectionTimeout),
         receiveTimeout:
             const Duration(milliseconds: AppTimeValues.dioReceiveTimeout),
-        responseType: ResponseType.plain,
+        responseType: ResponseType.json,
+        contentType: Headers.jsonContentType,
       ),
-    )..interceptors.addAll([DioInterceptor()]);
+    )..interceptors.addAll([
+        DioInterceptor(),
+        LogInterceptor(responseBody: true),
+      ]);
   }
 
   static Future<Response> get({

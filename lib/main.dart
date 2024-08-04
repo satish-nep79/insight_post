@@ -33,6 +33,8 @@ class _MyAppState extends ConsumerState<MyApp> {
       builder: (context, child) => child ?? const SizedBox(),
       child: Consumer(
         builder: (context, ref, _) => MaterialApp.router(
+          scaffoldMessengerKey: AppValues.snackBarMessengerKey,
+                    
           debugShowCheckedModeBanner: false,
           builder: (context, child) => child ?? const SizedBox(),
           title: "Insight Post",

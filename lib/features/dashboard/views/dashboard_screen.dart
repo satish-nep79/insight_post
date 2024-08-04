@@ -65,14 +65,14 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
                 width: 120.w,
                 fit: BoxFit.contain,
               ),
-              SvgPicture.asset(
-                SvgConstants.heart,
-              )
+              // SvgPicture.asset(
+              //   SvgConstants.heart,
+              // )
             ],
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: CustomBottomNavBar(
         currentIndex: currentIndex,
         navBarItems: [

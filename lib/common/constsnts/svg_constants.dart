@@ -9,4 +9,7 @@ class SvgConstants {
   static const message = "$basePath/message.svg";
   static const share = "$basePath/share.svg";
   static const arrowLeft = "$basePath/arrow_left.svg";
+  static const globe = "$basePath/globe.svg";
+  static const mail = "$basePath/mail.svg";
+  static const phone = "$basePath/phone.svg";
 }

@@ -6,7 +6,7 @@ class SnackBarService {
   static final GlobalKey<ScaffoldMessengerState> _messageKey =
       AppValues.snackBarMessengerKey;
 
-  void showSuccess({String? title, String? message}) {
+  static void showSuccess({String? title, String? message}) {
     _messageKey.currentState?.showSnackBar(AppSnackBar.getSnackBar(
       type: AppSnackBarType.success,
       message: message,
@@ -14,7 +14,7 @@ class SnackBarService {
     ));
   }
 
-  void showError({String? title, String? message}) {
+  static void showError({String? title, String? message}) {
     _messageKey.currentState?.showSnackBar(AppSnackBar.getSnackBar(
       type: AppSnackBarType.error,
       message: message,
@@ -22,7 +22,7 @@ class SnackBarService {
     ));
   }
 
-  void showInfo({String? title, required String message}) {
+  static void showInfo({String? title, required String message}) {
     _messageKey.currentState?.showSnackBar(AppSnackBar.getSnackBar(
       type: AppSnackBarType.info,
       message: message,
@@ -30,7 +30,7 @@ class SnackBarService {
     ));
   }
 
-  void showWarning({String? title, required String message}) {
+  static void showWarning({String? title, required String message}) {
     _messageKey.currentState?.showSnackBar(AppSnackBar.getSnackBar(
       type: AppSnackBarType.warning,
       message: message,

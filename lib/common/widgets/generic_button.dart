@@ -5,6 +5,7 @@ class GenericButton extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
   final double height;
+  final double? width;
   final bool isDisabled;
   final Color? backGroundColor;
   final Color? textColor;
@@ -15,7 +16,8 @@ class GenericButton extends StatelessWidget {
       this.height = 50,
       this.isDisabled = false,
       this.backGroundColor,
-      this.textColor});
+      this.textColor,
+      this.width});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,8 @@ class GenericButton extends StatelessWidget {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
             backgroundColor: backGroundColor ?? theme.colorScheme.secondary,
-            minimumSize: Size.fromHeight(height),
+            minimumSize:
+                width != null ? Size(width!, height) : Size.fromHeight(height),
             disabledBackgroundColor: theme.colorScheme.outline,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),

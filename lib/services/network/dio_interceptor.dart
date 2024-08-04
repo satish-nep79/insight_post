@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:insight_post/services/network/dio_exception.dart';
 import 'package:insight_post/utils/log_helper.dart';
@@ -30,7 +32,7 @@ class DioInterceptor extends Interceptor {
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     var options = response.requestOptions;
     final requestPath = "${options.baseUrl}${options.path}";
-    LogHelper.info(title: requestPath, message: response.data);
+    // LogHelper.info(title: requestPath, message: response.data);
     super.onResponse(response, handler);
   }
 }

@@ -5,7 +5,7 @@ class Apis {
   static String getPostDetailUrl(int postId) => "$baseUrl/posts/$postId";
   static String getPostCommentsUrl(int postId) => "$baseUrl/posts/$postId/comments";
   static String getUserPostsUrl(int userId) => "$baseUrl/users/$userId/posts";
-  static String getUsersUrl(int userId) => "$baseUrl/users";
+  static String get getUsersUrl => "$baseUrl/users";
   static String getUserTodosUrl(int userId) => "$baseUrl/users/$userId/todos";
   static String getUserAlbumsUrl(int userId) => "$baseUrl/users/$userId/albums";
   static String getAlbumPhotoesUrl(int albumId) =>

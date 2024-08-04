@@ -3,10 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:insight_post/common/constsnts/svg_constants.dart';
 import 'package:insight_post/common/widgets/circular_text_widget.dart';
+import 'package:insight_post/features/home/model/post_model.dart';
 
 class PostWidget extends StatelessWidget {
+  final PostModel post;
   const PostWidget({
     super.key,
+    required this.post,
   });
 
   @override
@@ -47,16 +50,20 @@ class PostWidget extends StatelessWidget {
           height: 8.h,
         ),
         Text(
-          "et ea vero quia laudantium autem",
-          style: textTheme.headlineSmall,
+          post.title ?? "",
+          style: textTheme.headlineSmall?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
         ),
         SizedBox(
           height: 8.h,
         ),
         Text(
-          "delectus reiciendis molestiae occaecati non minima eveniet qui voluptatibus\naccusamus in eum beatae sit\nvel qui neque voluptates ut commodi qui incidunt\nut animi commodi",
-          style: textTheme.headlineSmall,
-          textAlign: TextAlign.justify,
+          post.body ?? "",
+          style: textTheme.bodyLarge?.copyWith(
+            color: theme.colorScheme.onSurface,
+          ),
+          textAlign: TextAlign.left,
         ),
         SizedBox(
           height: 10.h,
@@ -66,29 +73,28 @@ class PostWidget extends StatelessWidget {
           thickness: 1.h,
           color: theme.colorScheme.outline,
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.h),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Show Comments",
-                style: textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            // IconButton(
+            //   onPressed: () {},
+            //   icon: SvgPicture.asset(
+            //     SvgConstants.heart,
+            //   ),
+            // ),
+            IconButton(
+              onPressed: () {},
+              icon: SvgPicture.asset(
+                SvgConstants.message,
               ),
-              RotatedBox(
-                quarterTurns: 2,
-                child: SvgPicture.asset(
-                  SvgConstants.arrowLeft,
-                  colorFilter: ColorFilter.mode(
-                    theme.colorScheme.onSurfaceVariant,
-                    BlendMode.srcIn,
-                  ),
-                ),
-              )
-            ],
-          ),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: SvgPicture.asset(
+                SvgConstants.share,
+              ),
+            )
+          ],
         ),
         Divider(
           height: 1.h,

@@ -6,9 +6,10 @@ import 'package:insight_post/common/constsnts/app_text_styles.dart';
 class AppTheme {
   static ThemeData basicTheme() {
     const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.dark,);
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.dark,
+    );
 
     return ThemeData.dark().copyWith(
       textTheme: getBasicTextTheme(),
@@ -24,6 +25,9 @@ class AppTheme {
           minWidth: 48,
         ),
       ),
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
+          circularTrackColor: AppColors.lGray,
+          color: AppColors.backgroundColor),
       colorScheme: const ColorScheme.light().copyWith(
         primary: AppColors.primaryColor,
         secondary: AppColors.secondaryColor,
