@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:insight_post/common/constsnts/app_colors.dart';
 
 class GenericButton extends StatelessWidget {
   final String title;

@@ -36,7 +36,7 @@ class CircularText extends StatelessWidget {
   Widget build(BuildContext context) {
     final radius = this.radius ?? 20.r;
 
-    final colorAsIndex = this.colorAsIndex;
+    final colorAsIndex = (this.colorAsIndex??0) %5;
     return Container(
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
@@ -54,7 +54,7 @@ class CircularText extends StatelessWidget {
               firstTwoName,
               style: TextStyle(
                 fontSize: fontSize,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
                 color: colorAsIndex != null
                     ? textColorList
                         .elementAtOrNull(colorAsIndex % textColorList.length)

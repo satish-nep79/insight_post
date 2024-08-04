@@ -32,7 +32,7 @@ class DioInterceptor extends Interceptor {
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     var options = response.requestOptions;
     final requestPath = "${options.baseUrl}${options.path}";
-    // LogHelper.info(title: requestPath, message: response.data);
+    LogHelper.info(title: requestPath, message: response.data.toString());
     super.onResponse(response, handler);
   }
 }
