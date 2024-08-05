@@ -74,7 +74,7 @@ To contribute to this project, please ensure you follow these guidelines:
 
 
 ## Screenshots
-<div style="display: flex; gap: 20px;">
+<div style="display: flex; gap: 60px;">
 <img src="assets/ss/splash.png" alt="Splash Screen" width="300"/> <img src="assets/ss/homescreen.png" alt="Home Screen" width="300"/>
 <img src="assets/ss/postdetails.png" alt="Post Details Screen" width="300"/> <img src="assets/ss/users.png" alt="Users Screen" width="300"/>
 </div>
