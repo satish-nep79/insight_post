@@ -30,7 +30,7 @@ class UserRepo {
       if (response.statusCode! >= 200 && response.statusCode! < 300) {
         var users = User.listFromJson(response.data);
         onSuccess(users);
-        db.saveUsers(users);
+        db.insertUsers(users);
       } else {
         throw "Faced ${response.statusCode} Error";
       }
@@ -66,7 +66,7 @@ class UserRepo {
       if (response.statusCode! >= 200 && response.statusCode! < 300) {
         var user = User.fromJson(response.data);
         onSuccess(user);
-        db.saveUser(user);
+        db.insertUser(user);
       } else {
         throw "Faced ${response.statusCode} Error";
       }

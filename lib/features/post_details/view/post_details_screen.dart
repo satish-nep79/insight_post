@@ -8,6 +8,7 @@ import 'package:insight_post/common/widgets/status/generic_status.dart';
 import 'package:insight_post/features/home/model/post_model.dart';
 import 'package:insight_post/features/home/view/widget/post_widget.dart';
 import 'package:insight_post/features/post_details/controller/post_detail_controller.dart';
+import 'package:insight_post/features/post_details/models/comment_model.dart';
 import 'package:insight_post/features/post_details/view/widget/comment_widget.dart';
 
 class PostDetailsScreen extends ConsumerStatefulWidget {
@@ -48,18 +49,26 @@ class _PostDetailsScreenState extends ConsumerState<PostDetailsScreen> {
         title: "Post",
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Container(
-        color: theme.scaffoldBackgroundColor,
-        child: GenericTextField(
-          hint: "Add Comment",
-          controller: TextEditingController(),
-          textInputAction: TextInputAction.done,
-          textInputType: TextInputType.text,
-          suffixIcon: IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.send),
-          ),
-        ),
+      floatingActionButton: Consumer(
+        builder: (context, localRef, _) {
+          final localState = localRef.watch(postCommentProvider);
+          return Container(
+            color: theme.scaffoldBackgroundColor,
+            child: GenericTextField(
+              hint: "Add Comment",
+              controller: commentTextController,
+              textInputAction: TextInputAction.done,
+              textInputType: TextInputType.text,
+              suffixIcon: localState is LoadingState
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : _buildPostButton(
+                      localRef,
+                    ),
+            ),
+          );
+        },
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -132,6 +141,30 @@ class _PostDetailsScreenState extends ConsumerState<PostDetailsScreen> {
             )
           ],
         ),
+      ),
+    );
+  }
+
+  _submitComment(WidgetRef localRef) async {
+    var commentText = commentTextController.text;
+    if (commentText.isNotEmpty) {
+      FocusScope.of(context).unfocus();
+      var comment = CommentModel(
+        body: commentText,
+        postId: widget.post.id,
+        email: "satish79@gmail;.com",
+        name: "Test Comment",
+      );
+      ref.read(postCommentProvider.notifier).postComment(comment);
+    }
+  }
+
+  IconButton _buildPostButton(WidgetRef localRef) {
+    return IconButton(
+      onPressed: () => _submitComment(localRef),
+      icon: Icon(
+        Icons.send,
+        color: Theme.of(context).colorScheme.secondary,
       ),
     );
   }

@@ -1,4 +1,8 @@
 import 'package:insight_post/features/home/model/post_model.dart';
+import 'package:insight_post/features/post_details/models/comment_model.dart';
+import 'package:insight_post/features/user_detail/model/album_model.dart';
+import 'package:insight_post/features/user_detail/model/photo_model.dart';
+import 'package:insight_post/features/user_detail/model/todo_model.dart';
 import 'package:insight_post/features/users/model/user_mdoel.dart';
 import 'package:insight_post/utils/log_helper.dart';
 import 'package:sqflite/sqflite.dart';
@@ -23,10 +27,12 @@ class DatabaseHelper {
   }
 
   void _onCreate(Database db, int version) async {
-    LogHelper.info(title: "Create Post");
     await db.execute(PostModel.createQuery);
-    LogHelper.info(title: "Create User");
     await db.execute(User.createQuery);
+    await db.execute(CommentModel.createQuery);
+    await db.execute(TodoModel.createQuery);
+    await db.execute(AlbumModel.createQuery);
+    await db.execute(PhotoModel.createQuery);
   }
 
   Future<List<PostModel>> getPosts() async {
@@ -39,15 +45,121 @@ class DatabaseHelper {
     }
   }
 
+  Future<void> insertComments(List<CommentModel> comments) async {
+    for (var comment in comments) {
+      await insertComment(comment);
+    }
+  }
+
+  Future<void> insertComment(CommentModel comment) async {
+    await _db!.insert(CommentModel.tableName, comment.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  Future<void> insertPhotos(List<PhotoModel> photos) async {
+    for (var photo in photos) {
+      await insertPhoto(photo);
+    }
+  }
+
+  Future<void> insertPhoto(PhotoModel photo) async {
+    await _db!.insert(PhotoModel.tableName, photo.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  Future<void> insertAlbums(List<AlbumModel> albums) async {
+    for (var album in albums) {
+      await insertAlbum(album);
+    }
+  }
+
+  Future<void> insertAlbum(AlbumModel album) async {
+    await _db!.insert(AlbumModel.tableName, album.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  Future<void> insertTodos(List<TodoModel> todos) async {
+    for (var todo in todos) {
+      await insertTodo(todo);
+    }
+  }
+
+  Future<void> insertTodo(TodoModel todo) async {
+    await _db!.insert(TodoModel.tableName, todo.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
   Future<List<User>> getUsers() async {
     try {
       var results = await _db!.query(User.tableName);
       return User.listFromDBJson(results);
-    } catch (e,s) {
-      LogHelper.error(title: "Db Error Users Fetch", message: e.toString(), stackTrace: s);
+    } catch (e, s) {
+      LogHelper.error(
+          title: "Db Error Users Fetch", message: e.toString(), stackTrace: s);
       return [];
     }
   }
+
+  Future<List<CommentModel>> getPostComments(num postId) async {
+    try {
+      var results = await _db!.query(CommentModel.tableName,
+          where: "postId=?", whereArgs: ["$postId"]);
+      return CommentModel.listFromJson(results);
+    } catch (e, s) {
+      LogHelper.error(
+          title: "Db Error Comments Fetch", message: e.toString(), stackTrace: s);
+      return [];
+    }
+  }
+
+  Future<List<PostModel>> getUserPosts(num userId) async {
+    try {
+      var results = await _db!.query(PostModel.tableName,
+          where: "userId=?", whereArgs: ["$userId"]);
+      return PostModel.listFromJson(results);
+    } catch (e, s) {
+      LogHelper.error(
+          title: "Db Error Posts Fetch", message: e.toString(), stackTrace: s);
+      return [];
+    }
+  }
+
+  Future<List<TodoModel>> getUserTodo(num userId) async {
+    try {
+      var results = await _db!.query(TodoModel.tableName,
+          where: "userId=?", whereArgs: ["$userId"]);
+      return TodoModel.listFromJson(results);
+    } catch (e, s) {
+      LogHelper.error(
+          title: "Db Error Posts Fetch", message: e.toString(), stackTrace: s);
+      return [];
+    }
+  }
+
+  Future<List<AlbumModel>> getUserAlbums(num userId) async {
+    try {
+      var results = await _db!.query(AlbumModel.tableName,
+          where: "userId=?", whereArgs: ["$userId"]);
+      return AlbumModel.listFromJson(results);
+    } catch (e, s) {
+      LogHelper.error(
+          title: "Db Error Posts Fetch", message: e.toString(), stackTrace: s);
+      return [];
+    }
+  }
+
+  Future<List<PhotoModel>> getAlbumPhotoes(num albumId) async {
+    try {
+      var results = await _db!.query(PhotoModel.tableName,
+          where: "albumId=?", whereArgs: ["$albumId"]);
+      return PhotoModel.listFromJson(results);
+    } catch (e, s) {
+      LogHelper.error(
+          title: "Db Error Posts Fetch", message: e.toString(), stackTrace: s);
+      return [];
+    }
+  }
+
 
   Future<User?> getUser({String? whereString, List<String>? args}) async {
     try {
@@ -57,8 +169,9 @@ class DatabaseHelper {
       LogHelper.info(title: "user data", message: results[0].toString());
       var user = User.fromDBJson(results[0]);
       return user;
-    } catch (e,s) {
-      LogHelper.error(title: "Db Error User Fetch", message: e.toString(), stackTrace: s);
+    } catch (e, s) {
+      LogHelper.error(
+          title: "Db Error User Fetch", message: e.toString(), stackTrace: s);
       return null;
     }
   }
@@ -68,7 +181,7 @@ class DatabaseHelper {
     return user != null;
   }
 
-  Future<void> saveUser(User user) async {
+  Future<void> insertUser(User user) async {
     bool exists = await userExists(user.id!);
     if (exists) {
       LogHelper.info(
@@ -92,19 +205,19 @@ class DatabaseHelper {
     return result.isNotEmpty;
   }
 
-  Future<void> savePosts(List<PostModel> posts) async {
+  Future<void> insertPosts(List<PostModel> posts) async {
     for (var post in posts) {
-      await savePost(post);
+      await insertPost(post);
     }
   }
 
-  Future<void> saveUsers(List<User> users) async {
+  Future<void> insertUsers(List<User> users) async {
     for (var user in users) {
-      await saveUser(user);
+      await insertUser(user);
     }
   }
 
-  Future<void> savePost(PostModel post) async {
+  Future<void> insertPost(PostModel post) async {
     bool exists = await postExists(post.id!);
     if (exists) {
       LogHelper.info(

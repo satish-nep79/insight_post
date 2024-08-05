@@ -5,6 +5,10 @@ abstract class GenericState<T> {
   const GenericState();
 }
 
+
+class InitialState<T> extends GenericState<T> {
+  const InitialState();
+}
 class LoadingState<T> extends GenericState<T> {
   const LoadingState();
 }

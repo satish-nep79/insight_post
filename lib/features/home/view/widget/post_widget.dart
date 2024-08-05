@@ -41,6 +41,11 @@ class PostWidget extends ConsumerWidget {
     var theme = Theme.of(context);
     var textTheme = theme.textTheme;
     return Skeletonizer(
+      effect: ShimmerEffect(
+        baseColor: theme.colorScheme.surface,
+        highlightColor: theme.scaffoldBackgroundColor,
+        duration: Duration(seconds: 1),
+      ),
       enabled: isLoading,
       child: InkWell(
         splashColor: Colors.transparent,

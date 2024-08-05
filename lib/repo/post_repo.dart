@@ -35,7 +35,7 @@ class PostRepo {
       if (response.statusCode! >= 200 && response.statusCode! < 300) {
         var posts = PostModel.listFromJson(response.data);
         onSuccess(posts);
-        db.savePosts(posts);
+        db.insertPosts(posts);
       } else {
         throw "Faced ${response.statusCode} Error";
       }
@@ -60,6 +60,31 @@ class PostRepo {
 
       if (response.statusCode! >= 200 && response.statusCode! < 300) {
         var comments = CommentModel.listFromJson(response.data);
+        onSuccess(comments);
+      } else {
+        throw "Faced ${response.statusCode} Error";
+      }
+    } on DioException catch (e, s) {
+      onError(e.message ?? "Sorry!! something went wrong");
+      LogHelper.error(title: Apis.getPostsUrl, error: e, stackTrace: s);
+    } catch (e, s) {
+      onError("Sorry!! something went wrong");
+      LogHelper.error(title: Apis.getPostsUrl, error: e, stackTrace: s);
+    }
+  }
+
+  static postComment({
+    required int postId,
+    required CommentModel comment,
+    required Function(CommentModel comment) onSuccess,
+    required Function(String message) onError,
+  }) async {
+    try {
+      var response = await DioService.post(
+          endPoint: Apis.getPostCommentsUrl(postId), body: comment.toJson());
+
+      if (response.statusCode! >= 200 && response.statusCode! < 300) {
+        var comments = CommentModel.fromJson(response.data);
         onSuccess(comments);
       } else {
         throw "Faced ${response.statusCode} Error";

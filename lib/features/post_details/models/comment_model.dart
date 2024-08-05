@@ -1,4 +1,15 @@
 class CommentModel {
+  static String get tableName => "Comment";
+  static String get createQuery => '''
+    CREATE TABLE $tableName (
+      id INTEGER PRIMARY KEY,
+      postId INTEGER,
+      name TEXT,
+      email TEXT,
+      body TEXT
+    )
+  ''';
+
   int? postId;
   int? id;
   String? name;
@@ -8,7 +19,7 @@ class CommentModel {
   CommentModel({this.postId, this.id, this.name, this.email, this.body});
 
   CommentModel.fromJson(Map<String, dynamic> json) {
-    postId = json['postId'];
+    postId = int.tryParse(json['postId'].toString());
     id = json['id'];
     name = json['name'];
     email = json['email'];

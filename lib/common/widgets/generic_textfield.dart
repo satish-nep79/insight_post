@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class GenericTextField extends StatelessWidget {
@@ -66,6 +67,7 @@ class GenericTextField extends StatelessWidget {
     var theme = Theme.of(context);
     var textTheme = theme.textTheme;
     return TextFormField(
+        onTapOutside: (event) => FocusScope.of(context).unfocus(),
         minLines: minLines,
         focusNode: focusNode,
         maxLength: maxCharacters,
@@ -85,6 +87,8 @@ class GenericTextField extends StatelessWidget {
           }
         },
         decoration: InputDecoration(
+          suffixIconConstraints:
+              BoxConstraints(maxHeight: 48.r, maxWidth: 48.r),
           fillColor: fillColor ?? theme.colorScheme.surface,
           filled: true,
           prefixIcon: (prefixIcon != null)
