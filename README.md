@@ -75,6 +75,7 @@ To contribute to this project, please ensure you follow these guidelines:
 
 ## Screenshots
 
+![Home Screen](assets/ss/homescreen.png)
 
 
 ## Contact
