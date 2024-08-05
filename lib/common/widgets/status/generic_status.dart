@@ -34,14 +34,14 @@ class GenericStatusWidget extends StatelessWidget {
           height: 24.h,
         ),
         Text(
-          title ?? "400 Error",
+          title ?? "OOPS!!",
           style: textTheme.headlineSmall,
         ),
         SizedBox(
           height: 4.h,
         ),
         Text(
-          message ?? "Oops! The page you’re looking for doesn’t exist.",
+          message ?? "Something went wrong while fetchig the data",
           style: textTheme.bodySmall,
         ),
         if (onRetry != null)

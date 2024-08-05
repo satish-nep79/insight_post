@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:insight_post/common/route/post_details_route.dart';
 import 'package:insight_post/features/dashboard/views/dashboard_screen.dart';
 import 'package:insight_post/features/splash/view/splash_screen.dart';
 
@@ -16,9 +17,9 @@ class RouteManager {
             builder: (_, __) => const SplashScreen(),
           ),
           GoRoute(
-            path: DashboardScreen.route,
-            builder: (_, __) => const DashboardScreen(),
-          )
+              path: DashboardScreen.route,
+              builder: (_, __) => const DashboardScreen(),
+              routes: [$postDetailRoute])
         ]);
   }
 }

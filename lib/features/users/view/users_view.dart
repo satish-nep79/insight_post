@@ -46,6 +46,10 @@ class _UsersViewState extends ConsumerState<UsersView> {
             );
           },
         ),
+        empty: () => const GenericStatusWidget(
+          title: "No users",
+          message: "Oops! looks like there are no users at the moment",
+        ),
         error: (message) => Center(
           child: GenericStatusWidget(
             message: message,

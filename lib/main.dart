@@ -5,8 +5,12 @@ import 'package:insight_post/common/constsnts/app_theme.dart';
 import 'package:insight_post/common/constsnts/app_values.dart';
 import 'package:insight_post/common/constsnts/size_constants.dart';
 import 'package:insight_post/common/route/app_routes.dart';
+import 'package:insight_post/services/db/database_helper.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  DatabaseHelper databaseHelper = DatabaseHelper();
+  await databaseHelper.getDb();
   runApp(
     const ProviderScope(
       child: MyApp(),
@@ -34,7 +38,6 @@ class _MyAppState extends ConsumerState<MyApp> {
       child: Consumer(
         builder: (context, ref, _) => MaterialApp.router(
           scaffoldMessengerKey: AppValues.snackBarMessengerKey,
-                    
           debugShowCheckedModeBanner: false,
           builder: (context, child) => child ?? const SizedBox(),
           title: "Insight Post",

@@ -72,7 +72,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: CustomBottomNavBar(
         currentIndex: currentIndex,
         navBarItems: [

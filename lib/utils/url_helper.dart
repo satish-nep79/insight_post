@@ -1,4 +1,6 @@
+import 'package:insight_post/features/home/model/post_model.dart';
 import 'package:insight_post/services/snack_bar_service.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UrlLaunchHelper {
@@ -36,5 +38,11 @@ class UrlLaunchHelper {
         message: "Sorry we were unable to launch the dailer for  $phone",
       );
     }
+  }
+
+  static sharePost(PostModel post, String username) async {
+    var text = """ ${post.title}
+ 
+    ${post.body}""";await Share.share(text);
   }
 }

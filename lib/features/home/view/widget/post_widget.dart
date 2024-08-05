@@ -1,20 +1,23 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:insight_post/common/constsnts/svg_constants.dart';
 import 'package:insight_post/common/controllers/user_provider.dart';
+import 'package:insight_post/common/route/post_details_route.dart';
 import 'package:insight_post/common/widgets/circular_text_widget.dart';
 import 'package:insight_post/features/home/model/post_model.dart';
+import 'package:insight_post/features/post_details/view/post_details_screen.dart';
 import 'package:insight_post/features/users/model/user_mdoel.dart';
+import 'package:insight_post/utils/url_helper.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class PostWidget extends ConsumerWidget {
+  final bool allowNabigation;
   final PostModel post;
   const PostWidget({
     super.key,
+    this.allowNabigation = true,
     required this.post,
   });
 
@@ -39,93 +42,107 @@ class PostWidget extends ConsumerWidget {
     var textTheme = theme.textTheme;
     return Skeletonizer(
       enabled: isLoading,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              CircularText(
-                name: user?.name ?? "N/A",
-                radius: 25.r,
-                fontSize: 20.sp,
-                colorAsIndex: user?.id,
-              ),
-              SizedBox(
-                width: 12.w,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    user?.name ?? "N/A",
-                    style: textTheme.bodyLarge,
-                  ),
-                  Text(
-                    "@${user?.username ?? "N/A"}",
-                    style: textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
+      child: InkWell(
+        splashColor: Colors.transparent,
+        onTap: () {
+          if (allowNabigation) {
+            PostDetailRoute(post).go(context);
+          }
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                CircularText(
+                  name: user?.name ?? "N/A",
+                  radius: 25.r,
+                  fontSize: 20.sp,
+                  colorAsIndex: user?.id,
+                ),
+                SizedBox(
+                  width: 12.w,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      user?.name ?? "N/A",
+                      style: textTheme.bodyLarge,
                     ),
-                  )
-                ],
-              )
-            ],
-          ),
-          SizedBox(
-            height: 8.h,
-          ),
-          Text(
-            post.title ?? "",
-            style: textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.bold,
+                    Text(
+                      "@${user?.username ?? "N/A"}",
+                      style: textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    )
+                  ],
+                )
+              ],
             ),
-          ),
-          SizedBox(
-            height: 8.h,
-          ),
-          Text(
-            post.body ?? "",
-            style: textTheme.bodyLarge?.copyWith(
-              color: theme.colorScheme.onSurface,
+            SizedBox(
+              height: 8.h,
             ),
-            textAlign: TextAlign.left,
-          ),
-          SizedBox(
-            height: 10.h,
-          ),
-          Divider(
-            height: 1.h,
-            thickness: 1.h,
-            color: theme.colorScheme.outline,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              // IconButton(
-              //   onPressed: () {},
-              //   icon: SvgPicture.asset(
-              //     SvgConstants.heart,
-              //   ),
-              // ),
-              IconButton(
-                onPressed: () {},
-                icon: SvgPicture.asset(
-                  SvgConstants.message,
-                ),
+            Text(
+              post.title ?? "",
+              style: textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
               ),
-              IconButton(
-                onPressed: () {},
-                icon: SvgPicture.asset(
-                  SvgConstants.share,
+            ),
+            SizedBox(
+              height: 8.h,
+            ),
+            Text(
+              post.body ?? "",
+              style: textTheme.bodyLarge?.copyWith(
+                color: theme.colorScheme.onSurface,
+              ),
+              textAlign: TextAlign.left,
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
+            Divider(
+              height: 1.h,
+              thickness: 1.h,
+              color: theme.colorScheme.outline,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                // IconButton(
+                //   onPressed: () {},
+                //   icon: SvgPicture.asset(
+                //     SvgConstants.heart,
+                //   ),
+                // ),
+                IconButton(
+                  onPressed: () {
+                    if (allowNabigation) {
+                      PostDetailRoute(post).go(context);
+                    }
+                  },
+                  icon: SvgPicture.asset(
+                    SvgConstants.message,
+                  ),
                 ),
-              )
-            ],
-          ),
-          Divider(
-            height: 1.h,
-            thickness: 1.h,
-            color: theme.colorScheme.outline,
-          ),
-        ],
+                IconButton(
+                  onPressed: () {
+                    UrlLaunchHelper.sharePost(post, user?.username ?? "");
+                  },
+                  icon: SvgPicture.asset(
+                    SvgConstants.share,
+                  ),
+                )
+              ],
+            ),
+            Divider(
+              height: 1.h,
+              thickness: 1.h,
+              color: theme.colorScheme.outline,
+            ),
+          ],
+        ),
       ),
     );
   }

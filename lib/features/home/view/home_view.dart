@@ -45,6 +45,12 @@ class _HomeViewState extends ConsumerState<HomeView> {
             );
           },
         ),
+        empty: () => const Center(
+          child: GenericStatusWidget(
+            title: "No Posts",
+            message: "Oops! looks like there are no posts at the moment",
+          ),
+        ),
         error: (message) => Center(
           child: GenericStatusWidget(
             message: message,

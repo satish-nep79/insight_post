@@ -1,4 +1,20 @@
+import 'dart:convert';
+
 class User {
+  static String get tableName => "User";
+  static String get createQuery => '''
+    CREATE TABLE $tableName (
+      id INTEGER PRIMARY KEY,
+      name TEXT,
+      username TEXT,
+      email TEXT,
+      address TEXT,
+      phone TEXT,
+      website TEXT,
+      company TEXT
+    )
+  ''';
+
   int? id;
   String? name;
   String? username;
@@ -31,6 +47,21 @@ class User {
         json['company'] != null ? Company.fromJson(json['company']) : null;
   }
 
+  User.fromDBJson(Map<String, dynamic> data) {
+    id = data['id'];
+    name = data['name'];
+    username = data['username'];
+    email = data['email'];
+    address = data['address'] != null
+        ? Address.fromJson(json.decode(data['address']))
+        : null;
+    phone = data['phone'];
+    website = data['website'];
+    company = data['company'] != null
+        ? Company.fromJson(json.decode(data['company']))
+        : null;
+  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
@@ -48,10 +79,35 @@ class User {
     return data;
   }
 
+  Map<String, dynamic> toDbJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['username'] = username;
+    data['email'] = email;
+    if (address != null) {
+      data['address'] = json.encode(address!.toJson());
+    }
+    data['phone'] = phone;
+    data['website'] = website;
+    if (company != null) {
+      data['company'] = json.encode(company!.toJson());
+    }
+    return data;
+  }
+
   static List<User> listFromJson(Object? listJson) => listJson is List
       ? List<User>.from(
           listJson.map(
             (json) => User.fromJson(json),
+          ),
+        )
+      : [];
+      
+  static List<User> listFromDBJson(Object? listJson) => listJson is List
+      ? List<User>.from(
+          listJson.map(
+            (json) => User.fromDBJson(json),
           ),
         )
       : [];

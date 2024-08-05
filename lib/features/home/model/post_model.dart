@@ -1,4 +1,14 @@
 class PostModel {
+  static String get tableName => "PostModel";
+  static String get createQuery => """
+CREATE TABLE $tableName (
+    userId INTEGER,
+    id INTEGER PRIMARY KEY,
+    title TEXT,
+    body TEXT
+);
+""";
+
   int? userId;
   int? id;
   String? title;
